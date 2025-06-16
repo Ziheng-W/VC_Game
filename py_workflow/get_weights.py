@@ -133,4 +133,4 @@ def export_model_parameters(model, output_path="model_params.h"):
                     f.write("\n};\n\n")
 
         f.write(f"#endif // __{macro_guard}__\n")
-export_model_parameters(model1, "yuan.h")
+export_model_parameters(model_yuan, "yuan.h")

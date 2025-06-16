@@ -7,18 +7,20 @@
 #include "cnn_basic.h"
 #include "math.h"
 
-void comp1();
-void comp2();
-void comp3();
+float comp1();
+float comp2();
+float comp3();
 
 
 int main(){
   comp1();
+  comp2();
+  comp3();
 
   return 0;
 }
 
-void comp1(){
+float comp1(){
   float input [20][100] = {0};
   for (int i=0; i<20; i++){
     for (int j=0; j<100; j++){
@@ -56,6 +58,97 @@ void comp1(){
   float result[2] = {0};
   FullConnect(TYPE_FLOAT, pool_3, 128, layer7_Linear_weight_noise, result, 2);
   AddMatrix(TYPE_FLOAT, result, layer7_Linear_bias_noise, 2, result);
-  
+    
+  printf("comp_noise:\n");
   print_matrix(TYPE_FLOAT, result, 2, 1);
+  printf("\n");
+  return 0;
+}
+
+float comp2(){
+
+    float input [20][100] = {0};
+  for (int i=0; i<20; i++){
+    for (int j=0; j<100; j++){
+      input[i][j] = 1;
+    }
+  }
+
+  float conv_1 [20*32][100] = {0};
+  ConvLayer_20_100 (TYPE_FLOAT, 2, input, 1, layer1_Conv2d_weight_xin, 3, 3, layer1_Conv2d_bias_xin,  conv_1, 32);
+  ReLu(TYPE_FLOAT, conv_1, 2000*32, conv_1);
+  float pool_1 [10*32][50] = {0};    
+  for (int32_t i=0; i<32; i++){
+    MaxPool     (TYPE_FLOAT, 2, conv_1 + i*20, 20, 100, pool_1 + i*10);
+  }
+
+  float conv_2 [10*64][50] = {0};
+  ConvLayer_10_50 (TYPE_FLOAT, 2, pool_1, 32, layer2_Conv2d_weight_xin, 3, 3, layer2_Conv2d_bias_xin, conv_2, 64);
+  ReLu(TYPE_FLOAT, conv_2, 500*64, conv_2);
+  float pool_2 [5*64][25] = {0};    
+  for (int32_t i=0; i<64; i++){
+    MaxPool     (TYPE_FLOAT, 2, conv_2 + i*10, 10, 50, pool_2 + i*5);
+  }  
+  
+  float conv_3 [5*128][25] = {0};
+  ConvLayer_5_25 (TYPE_FLOAT, 2, pool_2, 64, layer3_Conv2d_weight_xin, 3, 3, layer3_Conv2d_bias_xin, conv_3, 128);
+  ReLu(TYPE_FLOAT, conv_3, 125*128, conv_3);
+  float pool_3[128] = {0};
+  for(int32_t i=0; i<128; i++){
+    AdaptivePool(TYPE_FLOAT, conv_3 + 5*i, 125, pool_3 + i);
+  }
+
+  float result[64] = {0};
+  FullConnect(TYPE_FLOAT, pool_3, 128, layer4_Linear_weight_xin, result, 64);
+  AddMatrix(TYPE_FLOAT, result, layer4_Linear_bias_xin, 64, result);
+    
+  printf("comp_xin:\n");
+  print_matrix(TYPE_FLOAT, result, 64, 1);
+  printf("\n");
+  return 0;
+}
+
+float comp3(){
+  float input [20][100] = {0};
+  for (int i=0; i<20; i++){
+    for (int j=0; j<100; j++){
+      input[i][j] = 1;
+    }
+  }
+
+  float conv_1 [20*32][100] = {0};
+  ConvLayer_20_100 (TYPE_FLOAT, 2, input, 1, layer1_Conv2d_weight_yuan, 3, 3, layer1_Conv2d_bias_yuan,  conv_1, 32);
+  ReLu(TYPE_FLOAT, conv_1, 2000*32, conv_1);
+  float pool_1 [10*32][50] = {0};    
+  for (int32_t i=0; i<32; i++){
+    MaxPool     (TYPE_FLOAT, 2, conv_1 + i*20, 20, 100, pool_1 + i*10);
+  }
+
+  float conv_2 [10*64][50] = {0};
+  ConvLayer_10_50 (TYPE_FLOAT, 2, pool_1, 32, layer2_Conv2d_weight_yuan, 3, 3, layer2_Conv2d_bias_yuan, conv_2, 64);
+  ReLu(TYPE_FLOAT, conv_2, 500*64, conv_2);
+  float pool_2 [5*64][25] = {0};    
+  for (int32_t i=0; i<64; i++){
+    MaxPool     (TYPE_FLOAT, 2, conv_2 + i*10, 10, 50, pool_2 + i*5);
+  }  
+
+  
+  float conv_3 [5*128][25] = {0};
+  ConvLayer_5_25 (TYPE_FLOAT, 2, pool_2, 64, layer3_Conv2d_weight_yuan, 3, 3, layer3_Conv2d_bias_yuan, conv_3, 128);
+  ReLu(TYPE_FLOAT, conv_3, 125*128, conv_3);
+  float pool_3[128] = {0};
+  for(int32_t i=0; i<128; i++){
+    AdaptivePool(TYPE_FLOAT, conv_3 + 5*i, 125, pool_3 + i);
+  }
+
+  
+  float result[64] = {0};
+  FullConnect(TYPE_FLOAT, pool_3, 128, layer4_Linear_weight_xin, result, 64);
+   
+  AddMatrix(TYPE_FLOAT, result, layer4_Linear_bias_yuan, 64, result);
+  
+  printf("comp_yuan:\n");
+  print_matrix(TYPE_FLOAT, result, 64, 1);
+  printf("\n");
+  return 0;
 }
