@@ -38,7 +38,7 @@ void bias(void *input, int32_t i_size, int32_t oc, float* bias){
 float fast_sqrt(float x) {
     if (x <= 0.0f) return 0.0f;
     float guess = x;
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 8; ++i) {
         guess = 0.5f * (guess + x / guess);
     }
     return guess;
