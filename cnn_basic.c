@@ -136,22 +136,22 @@ ReturnState MaxPool (DataType datatype, int32_t poolsize,
   int32_t output_H = input_H / poolsize;
   int32_t output_W = input_W / poolsize;                
   if (datatype == TYPE_INT32_T) {
-    int32_t ii = 0;
-    for (int32_t oi = 0; oi < output_H; oi++) {
-      int32_t ij = 0;
-      for (int32_t oj = 0; oj < output_W; oj++){
-        int32_t temp = 0;
-        for (int32_t pi = 0; pi < poolsize; pi++) {
-          for (int32_t pj = 0; pj < poolsize; pj++) {
-            int32_t temp_ = ((int32_t *)input)[(ii+pi)*input_W + ij+pj];
-            temp = temp > temp_ ? temp : temp_;
-          }
-        }
-        ((int32_t*)output)[oi*output_W + oj] = temp;
-        ij += poolsize;
-      }
-      ii += poolsize;
-    }
+    // int32_t ii = 0;
+    // for (int32_t oi = 0; oi < output_H; oi++) {
+    //   int32_t ij = 0;
+    //   for (int32_t oj = 0; oj < output_W; oj++){
+    //     int32_t temp = 0;
+    //     for (int32_t pi = 0; pi < poolsize; pi++) {
+    //       for (int32_t pj = 0; pj < poolsize; pj++) {
+    //         int32_t temp_ = ((int32_t *)input)[(ii+pi)*input_W + ij+pj];
+    //         temp = temp > temp_ ? temp : temp_;
+    //       }
+    //     }
+    //     ((int32_t*)output)[oi*output_W + oj] = temp;
+    //     ij += poolsize;
+    //   }
+    //   ii += poolsize;
+    // }
   }
   else if (datatype == TYPE_FLOAT) {
     int32_t ii = 0;

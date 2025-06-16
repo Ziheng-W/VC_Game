@@ -1,1 +1,1 @@
-gcc -Wall -Werror -o main main.c cnn_basic.c
+gcc -Wall -Werror -o main main.c cnn_basic.c -g -fstack-usage
