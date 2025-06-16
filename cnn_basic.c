@@ -52,6 +52,17 @@ void b_norm(void *input, int32_t i_size, int32_t oc, float* w, float * b, float 
   }
 }
 
+void normalize_vector (void *input, int32_t length){
+  float distance = 0;
+  for(int32_t i=0; i<length; i++){
+    distance += ((float*)input)[i] * ((float*)input)[i];
+  }
+  distance = fast_sqrt(distance);
+  if (distance < 1e-8f) return;
+  for(int32_t i=0; i<length; i++){
+    ((float*)input)[i] = ((float*)input)[i] / distance;
+  }
+}
 
 // 卷积计算
 // 默认

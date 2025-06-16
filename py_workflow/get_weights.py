@@ -15,7 +15,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # 模型路径
 path_speech_model   = "./model_simulation_validation/optimized_model/comp1_noise_speech/fold5_best.pth"
 path_xiaoxin_model  = "./model_simulation_validation/optimized_model/comp2_xiaoxin_others/embedding_model_epoch095.pth"
-path_xiaoyuan_model = "./model_simulation_validation/optimized_model/comp3_xiaoyuan_others/embedding_model_epoch083.pth"
+path_xiaoyuan_model = "./model_simulation_validation/optimized_model/comp3_xiaoyuan_others/embedding_model_epoch097.pth"
 
 gallery_xiaoxin  = "./model_simulation_validation/model_test/gallery/XiaoXin"     # comp2 gallery
 gallery_xiaoyuan = "./model_simulation_validation/model_test/gallery/XiaoYuan"     # comp3 gallery

@@ -101,7 +101,9 @@ float comp2(){
   float result[64] = {0};
   FullConnect(TYPE_FLOAT, pool_3, 128, layer4_Linear_weight_xin, result, 64);
   AddMatrix(TYPE_FLOAT, result, layer4_Linear_bias_xin, 64, result);
-    
+  
+  normalize_vector(result, 64);  
+
   printf("comp_xin:\n");
   print_matrix(TYPE_FLOAT, result, 64, 1);
   printf("\n");
@@ -109,6 +111,7 @@ float comp2(){
 }
 
 float comp3(){
+  
   float input [20][100] = {0};
   for (int i=0; i<20; i++){
     for (int j=0; j<100; j++){
@@ -131,7 +134,6 @@ float comp3(){
   for (int32_t i=0; i<64; i++){
     MaxPool     (TYPE_FLOAT, 2, conv_2 + i*10, 10, 50, pool_2 + i*5);
   }  
-
   
   float conv_3 [5*128][25] = {0};
   ConvLayer_5_25 (TYPE_FLOAT, 2, pool_2, 64, layer3_Conv2d_weight_yuan, 3, 3, layer3_Conv2d_bias_yuan, conv_3, 128);
@@ -140,13 +142,12 @@ float comp3(){
   for(int32_t i=0; i<128; i++){
     AdaptivePool(TYPE_FLOAT, conv_3 + 5*i, 125, pool_3 + i);
   }
-
-  
   float result[64] = {0};
-  FullConnect(TYPE_FLOAT, pool_3, 128, layer4_Linear_weight_xin, result, 64);
-   
+  FullConnect(TYPE_FLOAT, pool_3, 128, layer4_Linear_weight_yuan, result, 64);
   AddMatrix(TYPE_FLOAT, result, layer4_Linear_bias_yuan, 64, result);
-  
+    
+  normalize_vector(result, 64);  
+
   printf("comp_yuan:\n");
   print_matrix(TYPE_FLOAT, result, 64, 1);
   printf("\n");

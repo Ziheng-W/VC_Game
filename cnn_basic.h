@@ -39,6 +39,7 @@ void bias(void *input, int32_t i_size, int32_t oc, float* bias);
 
 void b_norm(void *input, int32_t i_size, int32_t oc, float* w, float * b, float * m, float * v);
 
+void normalize_vector (void *input, int32_t length);
 
 // 卷积计算
 // 默认
